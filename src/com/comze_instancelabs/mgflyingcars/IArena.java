@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.comze_instancelabs.minigamesapi.Arena;
@@ -24,6 +25,15 @@ public class IArena extends Arena {
 	public IArena(Main m, String arena) {
 		super(m, arena);
 		this.m = m;
+	}
+	
+	@Override
+	public void spectate(String playername) {
+		super.spectate(playername);
+		if (this.getPlayerAlive() < 2) {
+			this.stop();
+			return;
+		}
 	}
 
 	@Override
