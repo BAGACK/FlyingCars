@@ -54,6 +54,8 @@ public class Main extends JavaPlugin implements Listener {
 	static Main m = null;
 	static int global_arenas_size = 30;
 
+	ICommandHandler cmdhandler = new ICommandHandler();
+	
 	public void onEnable() {
 		m = this;
 		api = MinigamesAPI.getAPI().setupAPI(this, "flyingcars", IArena.class, new ArenasConfig(this), new MessagesConfig(this), new IClassesConfig(this), new StatsConfig(this, false), new DefaultConfig(this, false), false);
@@ -85,8 +87,7 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		CommandHandler ch = new CommandHandler();
-		return ch.handleArgs(this, "mgflyingcars", "/" + cmd.getName(), sender, args);
+		return cmdhandler.handleArgs(this, "mgflyingcars", "/" + cmd.getName(), sender, args);
 	}
 
 	@EventHandler
