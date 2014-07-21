@@ -10,7 +10,7 @@ public class IClassesConfig extends ClassesConfig {
 		
 		// default (stone)
     	this.getConfig().addDefault("config.kits.default.name", "default");
-    	this.getConfig().addDefault("config.kits.default.items", "291*1");
+    	this.getConfig().addDefault("config.kits.default.items", "291#ARROW_DAMAGE:1*1");
     	this.getConfig().addDefault("config.kits.default.lore", "Stone");
     	this.getConfig().addDefault("config.kits.default.requires_money", false);
     	this.getConfig().addDefault("config.kits.default.requires_permission", false);
@@ -19,7 +19,7 @@ public class IClassesConfig extends ClassesConfig {
     	
     	// iron
     	this.getConfig().addDefault("config.kits.iron.name", "iron");
-    	this.getConfig().addDefault("config.kits.iron.items", "292*1");
+    	this.getConfig().addDefault("config.kits.iron.items", "292#ARROW_DAMAGE:1*1");
     	this.getConfig().addDefault("config.kits.iron.lore", "Iron");
     	this.getConfig().addDefault("config.kits.iron.requires_money", false);
     	this.getConfig().addDefault("config.kits.iron.requires_permission", false);
@@ -28,7 +28,7 @@ public class IClassesConfig extends ClassesConfig {
     	
     	// diamond
     	this.getConfig().addDefault("config.kits.diamond.name", "diamond");
-    	this.getConfig().addDefault("config.kits.diamond.items", "293*1");
+    	this.getConfig().addDefault("config.kits.diamond.items", "293#ARROW_DAMAGE:1*1");
     	this.getConfig().addDefault("config.kits.diamond.lore", "Diamond");
     	this.getConfig().addDefault("config.kits.diamond.requires_money", false);
     	this.getConfig().addDefault("config.kits.diamond.requires_permission", false);
