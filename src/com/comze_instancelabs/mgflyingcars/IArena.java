@@ -30,6 +30,7 @@ public class IArena extends Arena {
 	@Override
 	public void spectate(String playername) {
 		super.spectate(playername);
+		Util.clearInv(Bukkit.getPlayer(playername));
 		if (this.getPlayerAlive() < 2) {
 			this.stop();
 			return;

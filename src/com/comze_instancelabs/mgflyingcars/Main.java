@@ -62,6 +62,7 @@ public class Main extends JavaPlugin implements Listener {
 		PluginInstance pinstance = api.pinstances.get(this);
 		pinstance.addLoadedArenas(loadArenas(this, pinstance.getArenasConfig()));
 		Bukkit.getPluginManager().registerEvents(this, this);
+		pinstance.getArenaListener().loseY = 100;
 		pli = pinstance;
 	}
 
@@ -225,7 +226,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (event.getEntity() instanceof Player) {
 			Player p = (Player) event.getEntity();
 			if (pli.global_players.containsKey(p.getName())) {
-				IArena a = (IArena) pli.global_players.get(p.getName());
+				Arena a = pli.global_players.get(p.getName());
 				if (a.getArenaState() == ArenaState.INGAME) {
 					if (event.getCause() == DamageCause.ENTITY_ATTACK || event.getCause() == DamageCause.PROJECTILE || event.getCause() == DamageCause.FALL) {
 						p.setHealth(20D);
