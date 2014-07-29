@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
@@ -28,6 +29,7 @@ import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -55,7 +57,9 @@ public class Main extends JavaPlugin implements Listener {
 	static int global_arenas_size = 30;
 
 	ICommandHandler cmdhandler = new ICommandHandler();
-	
+
+	private HashMap<String, Integer> pusage = new HashMap<String, Integer>();
+
 	public void onEnable() {
 		m = this;
 		api = MinigamesAPI.getAPI().setupAPI(this, "flyingcars", IArena.class, new ArenasConfig(this), new MessagesConfig(this), new IClassesConfig(this), new StatsConfig(this, false), new DefaultConfig(this, false), false);
@@ -94,18 +98,33 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerPickup(PlayerPickupItemEvent event) {
 		if (pli.global_players.containsKey(event.getPlayer().getName())) {
-			event.setCancelled(true);
+			if (event.getItem().getItemStack().getType() == Material.FIREBALL) {
+				if (!event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase(event.getPlayer().getName())) {
+					pli.global_players.get(event.getPlayer().getName()).spectate(event.getPlayer().getName());
+					Util.clearInv(event.getPlayer());
+				} else {
+					event.setCancelled(true);
+				}
+			} else {
+				event.setCancelled(true);
+			}
 		}
 	}
 
 	@EventHandler
 	public void onPlayerDrop(PlayerDropItemEvent event) {
 		if (pli.global_players.containsKey(event.getPlayer().getName())) {
-			event.setCancelled(true);
+			if (event.getItemDrop().getItemStack().getType() != Material.FIREBALL) {
+				event.setCancelled(true);
+			} else {
+				ItemMeta im = event.getItemDrop().getItemStack().getItemMeta();
+				im.setDisplayName(event.getPlayer().getName());
+				ItemStack item = new ItemStack(event.getItemDrop().getItemStack().getType());
+				item.setItemMeta(im);
+				event.getItemDrop().setItemStack(item);
+			}
 		}
 	}
-
-	private HashMap<String, Integer> pusage = new HashMap<String, Integer>();
 
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
@@ -127,7 +146,7 @@ public class Main extends JavaPlugin implements Listener {
 				return;
 			}
 			if (p.isInsideVehicle()) {
-				p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, 1D, 0D)));
+				p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, 1.5D, 0D)));
 			}
 		}
 	}
@@ -201,6 +220,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (event.getExited() instanceof Player) {
 			Player p = (Player) event.getExited();
 			if (pli.global_players.containsKey(p.getName())) {
+				p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, -1D, 0D)));
 				event.setCancelled(true);
 			}
 		}
