@@ -98,6 +98,10 @@ public class Main extends JavaPlugin implements Listener {
 		if (pli.global_players.containsKey(event.getPlayer().getName())) {
 			if (event.getItem().getItemStack().getType() == Material.FIREBALL) {
 				if (!event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase(event.getPlayer().getName())) {
+					try {
+						Bukkit.getPlayer(event.getItem().getItemStack().getItemMeta().getDisplayName()).sendMessage(ChatColor.GREEN + "Your bomb killed " + ChatColor.DARK_GREEN + event.getPlayer().getName() + ChatColor.GREEN + "!");
+					} catch (Exception e) {
+					}
 					pli.global_players.get(event.getPlayer().getName()).spectate(event.getPlayer().getName());
 					Util.clearInv(event.getPlayer());
 				} else {
