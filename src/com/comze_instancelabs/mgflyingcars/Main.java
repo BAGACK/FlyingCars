@@ -168,7 +168,7 @@ public class Main extends JavaPlugin implements Listener {
 						p.updateInventory();
 						p.getInventory().clear();
 						p.updateInventory();
-						Classes.getClass(m, p.getName());
+						pli.getClassesHandler().getClass(p.getName());
 						if (pusage.containsKey(p.getName())) {
 							pusage.remove(p.getName());
 						}
