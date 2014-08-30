@@ -143,12 +143,16 @@ public class Main extends JavaPlugin implements Listener {
 						shoot(item, event.getPlayer(), 2, 1554, 24, 2);
 					}
 				}
+				if (event.getAction() == Action.RIGHT_CLICK_AIR && event.getItem().getType() == Material.BLAZE_ROD) {
+					if (p.isInsideVehicle()) {
+						p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, 1.75D, 0D)));
+					}
+				}
 			}
-			if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK) || !(event.hasBlock())) {
-				return;
-			}
-			if (p.isInsideVehicle()) {
-				p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, 1.5D, 0D)));
+			if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+				if (p.isInsideVehicle()) {
+					p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, 1.75D, 0D)));
+				}
 			}
 		}
 	}
@@ -249,13 +253,13 @@ public class Main extends JavaPlugin implements Listener {
 			Player p = (Player) event.getEntity();
 			if (pli.global_players.containsKey(p.getName())) {
 				Arena a = pli.global_players.get(p.getName());
-				if (a.getArenaState() == ArenaState.INGAME) {
+				//if (a.getArenaState() == ArenaState.INGAME) {
 					if (event.getCause() == DamageCause.ENTITY_ATTACK || event.getCause() == DamageCause.PROJECTILE || event.getCause() == DamageCause.FALL) {
 						p.setHealth(20D);
 						event.setCancelled(true);
 						return;
 					}
-				}
+				//}
 			}
 		}
 	}

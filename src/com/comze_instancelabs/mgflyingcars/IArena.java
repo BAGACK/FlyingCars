@@ -1,10 +1,12 @@
 package com.comze_instancelabs.mgflyingcars;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.comze_instancelabs.minigamesapi.Arena;
 import com.comze_instancelabs.minigamesapi.util.Util;
@@ -37,6 +39,8 @@ public class IArena extends Arena {
 						}
 					}, 20L);
 				}
+				p.getInventory().addItem(new ItemStack(Material.BLAZE_ROD));
+				p.updateInventory();
 			}
 		}
 	}
