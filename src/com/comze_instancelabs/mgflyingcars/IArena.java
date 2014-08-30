@@ -12,12 +12,12 @@ import com.comze_instancelabs.minigamesapi.util.Util;
 public class IArena extends Arena {
 
 	Main m = null;
-	
+
 	public IArena(Main m, String arena) {
 		super(m, arena);
 		this.m = m;
 	}
-	
+
 	@Override
 	public void spectate(String playername) {
 		Util.clearInv(Bukkit.getPlayer(playername));
@@ -25,22 +25,42 @@ public class IArena extends Arena {
 	}
 
 	@Override
-	public void started(){
-		for(String p_ : this.getAllPlayers()){
+	public void started() {
+		for (String p_ : this.getAllPlayers()) {
 			final Player p = Bukkit.getPlayer(p_);
-			final Minecart mc = (Minecart) p.getWorld().spawnEntity(p.getLocation().add(0D, 1D, 0D), EntityType.MINECART);
-			Bukkit.getScheduler().runTaskLater(m, new Runnable(){
-				public void run(){
-					mc.setPassenger(p);
+			if (p != null) {
+				if (!p.isInsideVehicle()) {
+					final Minecart mc = (Minecart) p.getWorld().spawnEntity(p.getLocation().add(0D, 1D, 0D), EntityType.MINECART);
+					Bukkit.getScheduler().runTaskLater(m, new Runnable() {
+						public void run() {
+							mc.setPassenger(p);
+						}
+					}, 20L);
 				}
-			}, 20L);
+			}
 		}
 	}
-	
+
 	@Override
-	public void leavePlayer(final String playername, final boolean fullLeave){
+	public void start(boolean tp) {
+		super.start(tp);
+		for (String p_ : this.getAllPlayers()) {
+			final Player p = Bukkit.getPlayer(p_);
+			if (p != null) {
+				final Minecart mc = (Minecart) p.getWorld().spawnEntity(p.getLocation().add(0D, 1D, 0D), EntityType.MINECART);
+				Bukkit.getScheduler().runTaskLater(m, new Runnable() {
+					public void run() {
+						mc.setPassenger(p);
+					}
+				}, 20L);
+			}
+		}
+	}
+
+	@Override
+	public void leavePlayer(final String playername, final boolean fullLeave) {
 		Player p = Bukkit.getPlayer(playername);
-		if(p.isInsideVehicle()){
+		if (p.isInsideVehicle()) {
 			Entity ent = p.getVehicle();
 			p.leaveVehicle();
 			ent.remove();
