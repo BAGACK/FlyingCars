@@ -176,6 +176,8 @@ public class Main extends JavaPlugin implements Listener {
 						if (pusage.containsKey(p.getName())) {
 							pusage.remove(p.getName());
 						}
+						p.getInventory().addItem(new ItemStack(Material.BLAZE_ROD));
+						p.updateInventory();
 					}
 				}, 20L * 3);
 				pusage.put(p.getName(), id);
@@ -253,13 +255,13 @@ public class Main extends JavaPlugin implements Listener {
 			Player p = (Player) event.getEntity();
 			if (pli.global_players.containsKey(p.getName())) {
 				Arena a = pli.global_players.get(p.getName());
-				//if (a.getArenaState() == ArenaState.INGAME) {
-					if (event.getCause() == DamageCause.ENTITY_ATTACK || event.getCause() == DamageCause.PROJECTILE || event.getCause() == DamageCause.FALL) {
-						p.setHealth(20D);
-						event.setCancelled(true);
-						return;
-					}
-				//}
+				// if (a.getArenaState() == ArenaState.INGAME) {
+				if (event.getCause() == DamageCause.ENTITY_ATTACK || event.getCause() == DamageCause.PROJECTILE || event.getCause() == DamageCause.FALL) {
+					p.setHealth(20D);
+					event.setCancelled(true);
+					return;
+				}
+				// }
 			}
 		}
 	}
