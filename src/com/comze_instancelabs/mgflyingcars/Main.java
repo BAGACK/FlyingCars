@@ -20,6 +20,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -124,6 +125,21 @@ public class Main extends JavaPlugin implements Listener {
 				ItemStack item = new ItemStack(event.getItemDrop().getItemStack().getType());
 				item.setItemMeta(im);
 				event.getItemDrop().setItemStack(item);
+			}
+		}
+	}
+
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent event) {
+		if (event.getWhoClicked() instanceof Player) {
+			Player p = (Player) event.getWhoClicked();
+			if (pli.global_players.containsKey(p.getName())) {
+				Arena a = pli.global_players.get(p.getName());
+				if (a != null) {
+					if (a.getArenaState() == ArenaState.INGAME) {
+						event.setCancelled(true);
+					}
+				}
 			}
 		}
 	}
