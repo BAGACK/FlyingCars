@@ -231,7 +231,7 @@ public class Main extends JavaPlugin implements Listener {
 				if (v == null) {
 					v = p.getLocation().getDirection();
 				}
-				Vector dir = v.multiply(10.0D);
+				Vector dir = v.multiply(8.5D);
 				Vector dir_ = new Vector(dir.getX(), 0.0001D, dir.getZ());
 
 				car.setVelocity(dir_);
