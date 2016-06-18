@@ -61,7 +61,8 @@ public class Main extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		m = this;
-		api = MinigamesAPI.getAPI().setupAPI(this, "flyingcars", IArena.class, new ArenasConfig(this), new MessagesConfig(this), new IClassesConfig(this), new StatsConfig(this, false), new DefaultConfig(this, false), false);
+		MinigamesAPI.getAPI();
+		api = MinigamesAPI.setupAPI(this, "flyingcars", IArena.class, new ArenasConfig(this), new MessagesConfig(this), new IClassesConfig(this), new StatsConfig(this, false), new DefaultConfig(this, false), false);
 		PluginInstance pinstance = api.pinstances.get(this);
 		pinstance.addLoadedArenas(loadArenas(this, pinstance.getArenasConfig()));
 		Bukkit.getPluginManager().registerEvents(this, this);
@@ -85,7 +86,8 @@ public class Main extends JavaPlugin implements Listener {
 
 	public static IArena initArena(String arena) {
 		IArena a = new IArena(m, arena);
-		ArenaSetup s = MinigamesAPI.getAPI().pinstances.get(m).arenaSetup;
+		MinigamesAPI.getAPI();
+		ArenaSetup s = MinigamesAPI.pinstances.get(m).arenaSetup;
 		a.init(Util.getSignLocationFromArena(m, arena), Util.getAllSpawns(m, arena), Util.getMainLobby(m), Util.getComponentForArena(m, arena, "lobby"), s.getPlayerCount(m, arena, true), s.getPlayerCount(m, arena, false), s.getArenaVIP(m, arena));
 		return a;
 	}
@@ -192,11 +194,16 @@ public class Main extends JavaPlugin implements Listener {
 						if (pusage.containsKey(p.getName())) {
 							pusage.remove(p.getName());
 						}
-						p.getInventory().addItem(new ItemStack(Material.BLAZE_ROD));
-						p.updateInventory();
 					}
 				}, 20L * 3);
 				pusage.put(p.getName(), id);
+				Bukkit.getScheduler().runTaskLater(m, new Runnable() {
+					public void run() {
+					
+						p.getInventory().addItem(new ItemStack(Material.BLAZE_ROD));
+						p.updateInventory();
+					}
+				}, 20L * 4);
 			}
 		}
 	}
@@ -209,7 +216,7 @@ public class Main extends JavaPlugin implements Listener {
 		if (passenger instanceof Player) {
 			Player p = (Player) passenger;
 			if (pli.global_players.containsKey(p.getName())) {
-				v = p.getLocation().getDirection().multiply(10.0D);
+				v = p.getLocation().getDirection().multiply(9.0D);
 				event.getVehicle().getLocation().setDirection(v);
 				event.getVehicle().setVelocity(new Vector(v.getX(), 0.0001D, v.getZ()));
 			}
