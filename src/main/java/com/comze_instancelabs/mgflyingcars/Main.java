@@ -251,7 +251,11 @@ public class Main extends JavaPlugin implements Listener {
 		if (event.getExited() instanceof Player) {
 			Player p = (Player) event.getExited();
 			if (pli.global_players.containsKey(p.getName())) {
-				p.getVehicle().setVelocity(p.getVehicle().getVelocity().add(new Vector(0D, -1D, 0D)));
+				final Entity vehicle = p.getVehicle();
+				if (vehicle != null)
+				{
+					vehicle.setVelocity(vehicle.getVelocity().add(new Vector(0D, -1D, 0D)));
+				}
 				event.setCancelled(true);
 			}
 		}
