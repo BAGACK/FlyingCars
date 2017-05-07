@@ -1,4 +1,4 @@
-FlyingCars [![Build Status](http://www.minigameslib.de/build.php?app=FlyingCars&major=1)](http://www.minigameslib.de/buildref.php?app=FlyingCars&major=1)
+FlyingCars [![Build Status](http://www.minigameslib.de/build.png?app=FlyingCars&major=1)](http://www.minigameslib.de/buildref.php?app=FlyingCars&major=1)
 ==========
 
 Shoot others from the sky and win by staying alive.
