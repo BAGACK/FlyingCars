@@ -43,6 +43,7 @@ import com.comze_instancelabs.minigamesapi.config.ArenasConfig;
 import com.comze_instancelabs.minigamesapi.config.DefaultConfig;
 import com.comze_instancelabs.minigamesapi.config.MessagesConfig;
 import com.comze_instancelabs.minigamesapi.config.StatsConfig;
+import com.comze_instancelabs.minigamesapi.util.PlayerPickupItemHelper;
 import com.comze_instancelabs.minigamesapi.util.Util;
 import com.comze_instancelabs.minigamesapi.util.Validator;
 
@@ -68,6 +69,8 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, this);
 		pinstance.getArenaListener().loseY = 100;
 		pli = pinstance;
+		
+		new PlayerPickupItemHelper(this, this::onPlayerPickup);
 	}
 
 	public static ArrayList<Arena> loadArenas(JavaPlugin plugin, ArenasConfig cf) {
@@ -96,8 +99,7 @@ public class Main extends JavaPlugin implements Listener {
 		return cmdhandler.handleArgs(this, MinigamesAPI.getAPI().getPermissionGamePrefix("flyingcars"), "/" + cmd.getName(), sender, args);
 	}
 
-	@EventHandler
-	public void onPlayerPickup(PlayerPickupItemEvent event) {
+	public void onPlayerPickup(PlayerPickupItemHelper.CustomPickupEvent event) {
 		if (pli.global_players.containsKey(event.getPlayer().getName())) {
 			if (event.getItem().getItemStack().getType() == Material.FIREBALL) {
 				if (!event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase(event.getPlayer().getName())) {
